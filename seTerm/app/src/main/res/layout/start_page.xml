@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pink"
+    android:orientation="vertical"
+    tools:context=".startPage">
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:src="@drawable/big_flower" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/fontstyle"
+        android:gravity="center_horizontal"
+        android:text="오늘의 꽃\n"
+        android:textSize="100dp" />
+
+    <Button
+        android:id="@+id/managerJoin"
+        android:background="@drawable/button"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:fontFamily="@font/fontstyle"
+        android:layout_gravity="center"
+        android:textSize="40dp"
+        android:text="사장님 회원가입" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="\n\n"/>
+    <Button
+        android:id="@+id/userJoin"
+        android:background="@drawable/button"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:fontFamily="@font/fontstyle"
+        android:layout_gravity="center"
+        android:textSize="40dp"
+        android:text="손님 회원가입" />
+
+
+</LinearLayout>
