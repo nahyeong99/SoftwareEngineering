@@ -9,8 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SeTerm">
-        <activity android:name=".managerJoinPage"></activity>
-        <activity android:name=".userJoinPage"></activity>
+        <activity android:name=".userInfo"></activity>
+        <activity android:name=".managerInfo" />
+        <activity android:name=".managerJoinPage" />
+        <activity android:name=".userJoinPage" />
         <activity android:name=".startPage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
