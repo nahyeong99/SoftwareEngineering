@@ -12,7 +12,7 @@ TextView uid;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
 
-        uid = (TextView)findViewById(R.id.userInfo);
+        
 
     }
 }

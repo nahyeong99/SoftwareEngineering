@@ -70,6 +70,8 @@ public class userJoinPage extends AppCompatActivity {
         String email = ((EditText) findViewById(R.id.uID)).getText().toString();
         String password = ((EditText) findViewById(R.id.uPW)).getText().toString();
         String checkPassword = ((EditText) findViewById(R.id.uPWC)).getText().toString();
+        String name = ((EditText) findViewById(R.id.uName)).getText().toString();
+        String number = ((EditText) findViewById(R.id.uNumber)).getText().toString();
 
         //email과 password가 비었는지 아닌지를 체크 한다.
         if (TextUtils.isEmpty(email)) {
@@ -78,6 +80,18 @@ public class userJoinPage extends AppCompatActivity {
         }
         if (TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Password를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(name)) {
+            Toast.makeText(this, "이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(number)) {
+            Toast.makeText(this, "전화번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (number.length()<7) { //최소 7자리
+            Toast.makeText(this, "전화번호를 정확하게 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
         if (!password.equals(checkPassword)) {
@@ -101,9 +115,14 @@ public class userJoinPage extends AppCompatActivity {
                     String email = user.getEmail();
                     String uid = user.getUid();
 
+
+
                     HashMap<Object, String> hashMap = new HashMap<>();
                     hashMap.put("nickname", uid);
                     hashMap.put("email", email);
+                    hashMap.put("name", name);
+                    hashMap.put("phonenumber", number);
+
 
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference reference = database.getReference("Users");
