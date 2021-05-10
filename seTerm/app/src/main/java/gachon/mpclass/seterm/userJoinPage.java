@@ -3,8 +3,10 @@ package gachon.mpclass.seterm;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -16,10 +18,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import java.util.HashMap;
 
 public class userJoinPage extends AppCompatActivity {
 
     private FirebaseAuth uAuth;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +34,7 @@ public class userJoinPage extends AppCompatActivity {
 
         Button userJoinPageBack=(Button)findViewById(R.id.joinInUserBack);
         Button joinInuser=(Button)findViewById(R.id.joinInUser);
+        progressDialog = new ProgressDialog(this);
 
         uAuth = FirebaseAuth.getInstance();
 
@@ -63,33 +70,66 @@ public class userJoinPage extends AppCompatActivity {
         String password = ((EditText) findViewById(R.id.uPW)).getText().toString();
         String checkPassword = ((EditText) findViewById(R.id.uPWC)).getText().toString();
 
-        if (email.length() > 0 && password.length() > 0 && checkPassword.length() > 0) {
-            if (password.equals(checkPassword)) {
-                uAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    startToast("회원가입에 성공하였습니다");
-                                    FirebaseUser user = uAuth.getCurrentUser();
-                                    Intent intent = new Intent(getApplicationContext(),userInfo.class);
-                                    startActivity(intent);
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    if (task.getException() != null) {
-                                        startToast(task.getException().toString());
-                                    }
-                                }
-                            }
-                        });
-            } else {
-                startToast("비밀번호가 일치하지 않습니다");
+            //email과 password가 비었는지 아닌지를 체크 한다.
+            if(TextUtils.isEmpty(email)){
+                Toast.makeText(this, "Email을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                return;
             }
-        }
-        else{
-            startToast("이메일 또는 비밀번호를 입력해 주세요");
-        }
+            if(TextUtils.isEmpty(password)){
+                Toast.makeText(this, "Password를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(!password.equals(checkPassword))
+            {
+                Toast.makeText(userJoinPage.this,"비밀번호 불일치",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(password.length()<6)
+            {
+                Toast.makeText(userJoinPage.this,"비밀번호 최소 6자리 이상",Toast.LENGTH_SHORT).show();
+                return;
+            }
+//
+
+            //가입 요청 ---이메일!
+            uAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(userJoinPage.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                FirebaseUser user=uAuth.getCurrentUser();
+
+                                user.sendEmailVerification().addOnCompleteListener(userJoinPage.this, new OnCompleteListener<Void>() {
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+
+                                            String email = user.getEmail();
+                                            String uid = user.getUid();
+
+                                            HashMap<Object,String> hashMap = new HashMap<>();
+                                            hashMap.put("nickname",uid);
+                                            hashMap.put("email",email);
+
+                                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                            DatabaseReference reference = database.getReference("Users");
+                                            reference.child(uid).setValue(hashMap);
+
+                                            Toast.makeText(userJoinPage.this,"이메일 인증 후 로그인 하세요",Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(getApplicationContext(), startPage.class));
+                                        }
+                                        else{
+                                            Toast.makeText(userJoinPage.this,"Authentication failed.",Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            } else {
+                                //에러발생
+                                //textviewMessage.setText("에러유형\n - 이미 등록된 이메일  \n -암호 최소 6자리 이상 \n - 서버에러");
+                                Toast.makeText(userJoinPage.this, "이메일 안보내지는 듯--등록 에러!", Toast.LENGTH_SHORT).show();
+                            }
+                            progressDialog.dismiss();
+                        }
+            });
+
     }
 
     //리스너에서는 토스트 사용안돼서 함수만들어서 썼어욤
