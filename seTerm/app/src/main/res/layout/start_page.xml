@@ -7,42 +7,58 @@
     android:orientation="vertical"
     tools:context=".startPage">
 
-    <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        android:src="@drawable/big_flower" />
-
-    <TextView
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/fontstyle"
-        android:gravity="center_horizontal"
-        android:text="오늘의 꽃\n"
-        android:textSize="100dp" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="0dp"
+        android:fillViewport="true"
+        android:gravity="center"
+        android:orientation="vertical">
+        <!--액션바 없애기 전까지 스크롤뷰-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/managerJoin"
-        android:background="@drawable/button"
-        android:layout_width="250dp"
-        android:layout_height="70dp"
-        android:fontFamily="@font/fontstyle"
-        android:layout_gravity="center"
-        android:textSize="40dp"
-        android:text="사장님 회원가입" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="\n\n"/>
-    <Button
-        android:id="@+id/userJoin"
-        android:background="@drawable/button"
-        android:layout_width="250dp"
-        android:layout_height="70dp"
-        android:fontFamily="@font/fontstyle"
-        android:layout_gravity="center"
-        android:textSize="40dp"
-        android:text="손님 회원가입" />
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:src="@drawable/big_flower" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/fontstyle"
+                android:gravity="center_horizontal"
+                android:text="오늘의 꽃\n"
+                android:textSize="100dp" />
 
+            <Button
+                android:id="@+id/managerJoin"
+                android:layout_width="250dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:background="@drawable/button"
+                android:fontFamily="@font/fontstyle"
+                android:text="사장님 회원가입"
+                android:textSize="40dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\n\n" />
+
+            <Button
+                android:id="@+id/userJoin"
+                android:layout_width="250dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:background="@drawable/button"
+                android:fontFamily="@font/fontstyle"
+                android:text="손님 회원가입"
+                android:textSize="40dp" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

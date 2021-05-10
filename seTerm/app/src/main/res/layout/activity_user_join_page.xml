@@ -7,28 +7,35 @@
     android:orientation="vertical"
     tools:context="gachon.mpclass.seterm.userJoinPage">
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="left"
-        android:rotation="180"
-        android:src="@drawable/small_flower" />
-
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:layout_marginTop="0dp"
+        android:fillViewport="true"
+        android:gravity="center"
+        android:orientation="vertical">
+        <!--액션바 없애기 전까지 스크롤뷰-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="left"
+                android:rotation="180"
+                android:src="@drawable/small_flower" />
+
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="40dp"
                 android:fontFamily="@font/fontstyle"
-                android:text="\n정보입력\n" />
+                android:gravity="center"
+                android:text="\n정보입력\n"
+                android:textSize="40dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -95,7 +102,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="\n\n"/>
+                android:text="\n\n" />
 
             <Button
                 android:id="@+id/joinInUser"
@@ -107,24 +114,23 @@
                 android:text="손님으로 가입하기"
                 android:textSize="20dp" />
 
+
+            <Button
+                android:id="@+id/joinInUserBack"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_gravity="left"
+                android:background="@drawable/button"
+                android:fontFamily="@font/fontstyle"
+                android:text="뒤로가기"
+                android:textSize="15dp" />
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="right"
+                android:src="@drawable/small_flower" />
+
         </LinearLayout>
     </ScrollView>
-
-
-    <Button
-        android:id="@+id/joinInUserBack"
-        android:layout_width="70dp"
-        android:layout_height="40dp"
-        android:layout_gravity="left"
-        android:background="@drawable/button"
-        android:fontFamily="@font/fontstyle"
-        android:text="뒤로가기"
-        android:textSize="15dp" />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="right"
-        android:src="@drawable/small_flower" />
-
 </LinearLayout>
