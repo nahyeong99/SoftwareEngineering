@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.HashMap;
 
 public class userJoinPage extends AppCompatActivity {
@@ -32,8 +33,8 @@ public class userJoinPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_join_page);
 
-        Button userJoinPageBack=(Button)findViewById(R.id.joinInUserBack);
-        Button joinInuser=(Button)findViewById(R.id.joinInUser);
+        Button userJoinPageBack = (Button) findViewById(R.id.joinInUserBack);
+        Button joinInuser = (Button) findViewById(R.id.joinInUser);
         progressDialog = new ProgressDialog(this);
 
         uAuth = FirebaseAuth.getInstance();
@@ -70,65 +71,56 @@ public class userJoinPage extends AppCompatActivity {
         String password = ((EditText) findViewById(R.id.uPW)).getText().toString();
         String checkPassword = ((EditText) findViewById(R.id.uPWC)).getText().toString();
 
-            //email과 password가 비었는지 아닌지를 체크 한다.
-            if(TextUtils.isEmpty(email)){
-                Toast.makeText(this, "Email을 입력해 주세요.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(TextUtils.isEmpty(password)){
-                Toast.makeText(this, "Password를 입력해 주세요.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(!password.equals(checkPassword))
-            {
-                Toast.makeText(userJoinPage.this,"비밀번호 불일치",Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(password.length()<6)
-            {
-                Toast.makeText(userJoinPage.this,"비밀번호 최소 6자리 이상",Toast.LENGTH_SHORT).show();
-                return;
-            }
+        //email과 password가 비었는지 아닌지를 체크 한다.
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(this, "Email을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(password)) {
+            Toast.makeText(this, "Password를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (!password.equals(checkPassword)) {
+            Toast.makeText(userJoinPage.this, "비밀번호 불일치", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (password.length() < 6) {
+            Toast.makeText(userJoinPage.this, "비밀번호 최소 6자리 이상", Toast.LENGTH_SHORT).show();
+            return;
+        }
 //
 
-            //가입 요청 ---이메일!
-            uAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(userJoinPage.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                FirebaseUser user=uAuth.getCurrentUser();
 
-                                user.sendEmailVerification().addOnCompleteListener(userJoinPage.this, new OnCompleteListener<Void>() {
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if(task.isSuccessful()){
+        uAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(userJoinPage.this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    FirebaseUser user = uAuth.getCurrentUser();
 
-                                            String email = user.getEmail();
-                                            String uid = user.getUid();
 
-                                            HashMap<Object,String> hashMap = new HashMap<>();
-                                            hashMap.put("nickname",uid);
-                                            hashMap.put("email",email);
+                    String email = user.getEmail();
+                    String uid = user.getUid();
 
-                                            FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                            DatabaseReference reference = database.getReference("Users");
-                                            reference.child(uid).setValue(hashMap);
+                    HashMap<Object, String> hashMap = new HashMap<>();
+                    hashMap.put("nickname", uid);
+                    hashMap.put("email", email);
 
-                                            Toast.makeText(userJoinPage.this,"이메일 인증 후 로그인 하세요",Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(getApplicationContext(), startPage.class));
-                                        }
-                                        else{
-                                            Toast.makeText(userJoinPage.this,"Authentication failed.",Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-                            } else {
-                                //에러발생
-                                //textviewMessage.setText("에러유형\n - 이미 등록된 이메일  \n -암호 최소 6자리 이상 \n - 서버에러");
-                                Toast.makeText(userJoinPage.this, "이메일 안보내지는 듯--등록 에러!", Toast.LENGTH_SHORT).show();
-                            }
-                            progressDialog.dismiss();
-                        }
-            });
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference reference = database.getReference("Users");
+                    reference.child(uid).setValue(hashMap);
+
+                    Toast.makeText(userJoinPage.this, "회원가입 완료 - 로그인 하세요", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), startPage.class));
+
+
+                } else {
+                    //에러발생
+                    //textviewMessage.setText("에러유형\n - 이미 등록된 이메일  \n -암호 최소 6자리 이상 \n - 서버에러");
+                    Toast.makeText(userJoinPage.this, "Error", Toast.LENGTH_SHORT).show();
+                }
+                progressDialog.dismiss();
+            }
+        });
 
     }
 
@@ -136,9 +128,10 @@ public class userJoinPage extends AppCompatActivity {
     private void startToast(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
+
     //키보드 안올라오게 하는거
     @Override
-    protected  void onResume(){
+    protected void onResume() {
         super.onResume();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
