@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 
 public class startPage extends AppCompatActivity {
@@ -32,5 +33,11 @@ public class startPage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+    //키보드 안올라오게 하는거
+    @Override
+    protected  void onResume(){
+        super.onResume();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 }
