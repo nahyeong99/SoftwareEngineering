@@ -36,7 +36,18 @@
                 android:gravity="center"
                 android:text="\n정보입력\n"
                 android:textSize="40dp" />
-
+            <CheckBox
+                android:id="@+id/check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="사장님으로 가입하기 "/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="사장님으로 가입하는 경우에 체크박스를 선택해주세요."
+                android:layout_gravity="center"
+                android:textSize="8dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,7 +64,8 @@
                     android:id="@+id/uID"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:gravity="center"/>
 
             </LinearLayout>
 
@@ -137,7 +149,9 @@
                     android:gravity="center"
                     android:inputType="textPassword" />
 
+
             </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -150,7 +164,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/button"
                 android:fontFamily="@font/fontstyle"
-                android:text="손님으로 가입하기"
+                android:text="가입하기"
                 android:textSize="20dp" />
 
 
@@ -169,6 +183,7 @@
                 android:layout_height="100dp"
                 android:layout_gravity="right"
                 android:src="@drawable/small_flower" />
+
 
         </LinearLayout>
     </ScrollView>

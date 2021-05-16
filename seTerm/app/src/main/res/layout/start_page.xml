@@ -85,34 +85,19 @@
                 android:textSize="30dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="10dp"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_marginBottom="50dp">
-            <Button
-                android:id="@+id/managerJoin"
-                android:layout_width="95dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:background="@drawable/button"
-                android:fontFamily="@font/fontstyle"
-                android:text="사장님 회원가입"
-                android:textSize="10dp"
-                android:layout_marginRight="5dp"/>
+
             <Button
                 android:id="@+id/userJoin"
-                android:layout_width="95dp"
-                android:layout_height="40dp"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:background="@drawable/button"
                 android:fontFamily="@font/fontstyle"
-                android:text="손님 회원가입"
-                android:textSize="10dp"
-                android:layout_marginLeft="5dp"
-                />
-        </LinearLayout>
+                android:text="회원가입"
+                android:textSize="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"/>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

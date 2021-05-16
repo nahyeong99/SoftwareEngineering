@@ -15,7 +15,7 @@
         android:fillViewport="true"
         android:gravity="center"
         android:orientation="vertical">
-<!--액션바 없애기 전까지 스크롤뷰-->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/fontstyle"
                 android:gravity="center"
-                android:text="\n정보입력\n"
+                android:text="\n꽃집 정보입력\n"
                 android:textSize="40dp" />
 
             <LinearLayout
@@ -47,13 +47,34 @@
                     android:layout_width="85dp"
                     android:layout_height="wrap_content"
                     android:gravity="right"
-                    android:text="e-mail : " />
+                    android:text="사업자 번호 : " />
 
                 <EditText
-                    android:id="@+id/mID"
+                    android:id="@+id/license"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress" />
+                    android:gravity="center"
+                     />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="꽃집 이름 : " />
+
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    />
 
             </LinearLayout>
 
@@ -67,14 +88,14 @@
                     android:layout_width="85dp"
                     android:layout_height="wrap_content"
                     android:gravity="right"
-                    android:text="PWD : " />
+                    android:text="주소 : " />
 
                 <EditText
-                    android:id="@+id/mPW"
+                    android:id="@+id/address"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:inputType="textPassword" />
+                     />
             </LinearLayout>
 
             <LinearLayout
@@ -87,16 +108,48 @@
                     android:layout_width="85dp"
                     android:layout_height="wrap_content"
                     android:gravity="right"
-                    android:text="PWD check : " />
+                    android:text="영업시간 : " />
 
-                <EditText
-                    android:id="@+id/mPWC"
-                    android:layout_width="200dp"
+
+                <Spinner
+                    android:id="@+id/spinner1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    />
+                <Spinner
+                    android:id="@+id/spinner2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    />
+                <TextView
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:inputType="textPassword" />
-            </LinearLayout>
+                    android:text="~       " />
 
+
+
+            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <Spinner
+                android:id="@+id/spinner3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                />
+            <Spinner
+                android:id="@+id/spinner4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                />
+        </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

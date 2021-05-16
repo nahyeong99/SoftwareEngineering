@@ -32,7 +32,7 @@
             android:text="oo님"
             android:textSize="50dp"
             android:gravity="center"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="50dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -42,7 +42,7 @@
         android:layout_below="@id/layout"
         android:layout_marginTop="50dp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/setLocation"
@@ -53,7 +53,7 @@
             android:background="@drawable/button"
             android:text="위치 설정"
             android:textSize="22dp"
-            android:layout_margin="5dp"/>
+            android:layout_margin="15dp"/>
 
         <Button
             android:id="@+id/reservation"
@@ -63,18 +63,11 @@
             android:text="예약 하기"
             android:background="@drawable/button"
             android:textSize="22dp"
-            android:layout_margin="5dp"/>
+            android:layout_margin="15dp"/>
 
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/layout3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/layout2"
-        android:layout_marginTop="10dp"
-        android:gravity="center">
+
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -83,7 +76,7 @@
             android:fontFamily="@font/fontstyle"
             android:background="@drawable/button"
             android:textSize="22dp"
-            android:layout_margin="5dp"
+            android:layout_margin="15dp"
             />
 
         <Button
@@ -94,7 +87,7 @@
             android:text="정보 수정"
             android:background="@drawable/button"
             android:textSize="22dp"
-            android:layout_margin="5dp"/>
+            android:layout_margin="15dp"/>
 
     </LinearLayout>
     <ImageView

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -17,16 +18,19 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class startPage extends AppCompatActivity {
-    Button managerJoinButton;
+
     Button userJoinButton;
     EditText editTextEmail;
     EditText editTextPassword;
     Button buttonSignin;
     FirebaseAuth firebaseAuth;
+    private String[] key;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,24 +38,17 @@ public class startPage extends AppCompatActivity {
         setContentView(R.layout.start_page);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        String uid = firebaseAuth.getCurrentUser().getUid();
 
-        managerJoinButton=(Button)findViewById(R.id.managerJoin);
         userJoinButton=(Button)findViewById(R.id.userJoin);
         editTextEmail = (EditText) findViewById(R.id.loginID);
         editTextPassword = (EditText) findViewById(R.id.loginPW);
         buttonSignin = (Button) findViewById(R.id.login);
 
-        managerJoinButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent intent = new Intent(getApplicationContext(),managerJoinPage.class);
-                startActivity(intent);
-            }
-        });
-
         userJoinButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+
                 Intent intent = new Intent(getApplicationContext(),userJoinPage.class);
                 startActivity(intent);
             }
@@ -89,20 +86,49 @@ public class startPage extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         FirebaseUser user=firebaseAuth.getCurrentUser();
                         if(task.isSuccessful()) {
-                                finish();
 
-//
-                                Intent intent = new Intent(getApplicationContext(),userInfo.class);
-                                DatabaseReference mReference;
-                                FirebaseDatabase mDatabase;
-                                mDatabase = FirebaseDatabase.getInstance();
-                                mReference = mDatabase.getReference("Users");
+                            mDatabase = FirebaseDatabase.getInstance().getReference();
+                            mDatabase.child("Managers").child(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                    if (!task.isSuccessful()) {
+                                        Log.e("firebase", "Error getting data", task.getException());
+                                        Toast.makeText(startPage.this, "Error", Toast.LENGTH_SHORT).show();
 
-                                String uid = user.getUid();
-                                intent.putExtra("uid",uid);
-                                startActivity(intent);
+                                    }
+                                    else {
+                                        Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                                        if(String.valueOf(task.getResult().getValue()).contains("license")) //사업자 번호가 있으면 사장님
+                                        {
+                                            Intent intent = new Intent(getApplicationContext(),managerInfo.class);
+                                            DatabaseReference mReference;
+                                            FirebaseDatabase mDatabase;
+                                            mDatabase = FirebaseDatabase.getInstance();
+                                            mReference = mDatabase.getReference("Managers");
 
-//
+                                            String uid = user.getUid();
+                                            intent.putExtra("uid",uid);
+                                            startActivity(intent);
+                                        }
+                                        else
+                                        {
+
+                                            Intent intent = new Intent(getApplicationContext(),userInfo.class);
+                                            DatabaseReference mReference;
+                                            FirebaseDatabase mDatabase;
+                                            mDatabase = FirebaseDatabase.getInstance();
+                                            mReference = mDatabase.getReference("Customers");
+
+                                            String uid = user.getUid();
+                                            intent.putExtra("uid",uid);
+                                            startActivity(intent);
+                                        }
+                                    }
+                                }
+                            });
+
+
+
 
 
                         } else {

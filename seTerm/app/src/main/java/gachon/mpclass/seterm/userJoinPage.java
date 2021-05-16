@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -72,6 +73,7 @@ public class userJoinPage extends AppCompatActivity {
         String checkPassword = ((EditText) findViewById(R.id.uPWC)).getText().toString();
         String name = ((EditText) findViewById(R.id.uName)).getText().toString();
         String number = ((EditText) findViewById(R.id.uNumber)).getText().toString();
+        CheckBox check = (CheckBox)findViewById(R.id.check);
 
         //email과 password가 비었는지 아닌지를 체크 한다.
         if (TextUtils.isEmpty(email)) {
@@ -117,20 +119,25 @@ public class userJoinPage extends AppCompatActivity {
 
 
 
-                    HashMap<Object, String> hashMap = new HashMap<>();
-                    hashMap.put("nickname", uid);
-                    hashMap.put("email", email);
-                    hashMap.put("name", name);
-                    hashMap.put("phonenumber", number);
+
+                    G.hashMap.put("nickname", uid);
+                    G.hashMap.put("email", email);
+                    G.hashMap.put("name", name);
+                    G.hashMap.put("phonenumber", number);
 
 
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference reference = database.getReference("Users");
-                    reference.child(uid).setValue(hashMap);
-
-                    Toast.makeText(userJoinPage.this, "회원가입 완료 - 로그인 하세요", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), startPage.class));
-
+                    if(check.isChecked()) // 사장님으로 가입하는경우
+                    {
+                        Toast.makeText(userJoinPage.this, "꽃집 정보를 입력해주세요", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), managerJoinPage.class));}
+                    else { //손님으로 가입하는경우
+                        DatabaseReference reference = database.getReference("Customers");
+                        reference.child(uid).setValue(G.hashMap);
+                        G.hashMap.clear();
+                        Toast.makeText(userJoinPage.this, "회원가입 완료 - 로그인 하세요", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), startPage.class));
+                    }
 
                 } else {
                     //에러발생
