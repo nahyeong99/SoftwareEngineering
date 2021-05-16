@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "327422702860",
+    "project_id": "seterm-d4ac0",
+    "storage_bucket": "seterm-d4ac0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:327422702860:android:7eb542c28a3484e3fb0529",
+        "android_client_info": {
+          "package_name": "gachon.mpclass.seterm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "327422702860-id0u306brbege03vroempu7vfhe99uv3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "gachon.mpclass.seterm",
+            "certificate_hash": "36fb3c60806d06a2e378b1065a0f18f0da246f53"
+          }
+        },
+        {
+          "client_id": "327422702860-n52hrntjmq00153p0hkb61fe02khv4oj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAr9uWbhQNWMD-1m6Rm0jTyrVcAVVDZn-Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "327422702860-n52hrntjmq00153p0hkb61fe02khv4oj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
