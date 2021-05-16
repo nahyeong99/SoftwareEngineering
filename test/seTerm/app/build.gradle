@@ -44,6 +44,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-storage:6.4.0'
     implementation platform('com.google.firebase:firebase-bom:26.7.0')
     implementation 'com.google.firebase:firebase-database'
+    implementation files('libs/libDaumMapAndroid.jar')
 }
 
 apply plugin: 'com.android.application'

@@ -4,8 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,6 +26,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+
 public class startPage extends AppCompatActivity {
 
     Button userJoinButton;
@@ -36,19 +44,19 @@ public class startPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_page);
-
+        getHashKey();
         firebaseAuth = FirebaseAuth.getInstance();
 
-        userJoinButton=(Button)findViewById(R.id.userJoin);
+        userJoinButton = (Button) findViewById(R.id.userJoin);
         editTextEmail = (EditText) findViewById(R.id.loginID);
         editTextPassword = (EditText) findViewById(R.id.loginPW);
         buttonSignin = (Button) findViewById(R.id.login);
 
-        userJoinButton.setOnClickListener(new View.OnClickListener(){
+        userJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
 
-                Intent intent = new Intent(getApplicationContext(),userJoinPage.class);
+                Intent intent = new Intent(getApplicationContext(), userJoinPage.class);
                 startActivity(intent);
             }
         });
@@ -62,20 +70,20 @@ public class startPage extends AppCompatActivity {
 
 
     }
+
     //firebase userLogin method
-    private void userLogin(){
+    private void userLogin() {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
-        if(TextUtils.isEmpty(email)){
+        if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "email을 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(TextUtils.isEmpty(password)){
+        if (TextUtils.isEmpty(password)) {
             Toast.makeText(this, "password를 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
-
 
 
         //logging in the user
@@ -83,8 +91,8 @@ public class startPage extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        FirebaseUser user=firebaseAuth.getCurrentUser();
-                        if(task.isSuccessful()) {
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
+                        if (task.isSuccessful()) {
 
                             mDatabase = FirebaseDatabase.getInstance().getReference();
                             mDatabase.child("Managers").child(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -94,40 +102,34 @@ public class startPage extends AppCompatActivity {
                                         Log.e("firebase", "Error getting data", task.getException());
                                         Toast.makeText(startPage.this, "Error", Toast.LENGTH_SHORT).show();
 
-                                    }
-                                    else {
+                                    } else {
                                         Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                                        if(String.valueOf(task.getResult().getValue()).contains("license")) //사업자 번호가 있으면 사장님
+                                        if (String.valueOf(task.getResult().getValue()).contains("license")) //사업자 번호가 있으면 사장님
                                         {
-                                            Intent intent = new Intent(getApplicationContext(),managerInfo.class);
+                                            Intent intent = new Intent(getApplicationContext(), managerInfo.class);
                                             DatabaseReference mReference;
                                             FirebaseDatabase mDatabase;
                                             mDatabase = FirebaseDatabase.getInstance();
                                             mReference = mDatabase.getReference("Managers");
 
                                             String uid = user.getUid();
-                                            intent.putExtra("uid",uid);
+                                            intent.putExtra("uid", uid);
                                             startActivity(intent);
-                                        }
-                                        else
-                                        {
+                                        } else {
 
-                                            Intent intent = new Intent(getApplicationContext(),userInfo.class);
+                                            Intent intent = new Intent(getApplicationContext(), userInfo.class);
                                             DatabaseReference mReference;
                                             FirebaseDatabase mDatabase;
                                             mDatabase = FirebaseDatabase.getInstance();
                                             mReference = mDatabase.getReference("Customers");
 
                                             String uid = user.getUid();
-                                            intent.putExtra("uid",uid);
+                                            intent.putExtra("uid", uid);
                                             startActivity(intent);
                                         }
                                     }
                                 }
                             });
-
-
-
 
 
                         } else {
@@ -137,10 +139,32 @@ public class startPage extends AppCompatActivity {
                     }
                 });
     }
+
     //키보드 안올라오게 하는거
     @Override
-    protected  void onResume(){
+    protected void onResume() {
         super.onResume();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+    }
+
+    private void getHashKey() {
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (packageInfo == null)
+            Log.e("KeyHash", "KeyHash:null");
+
+        for (Signature signature : packageInfo.signatures) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            } catch (NoSuchAlgorithmException e) {
+                Log.e("KeyHash", "Unable to get MessageDigest. signature=" + signature, e);
+            }
+        }
     }
 }
