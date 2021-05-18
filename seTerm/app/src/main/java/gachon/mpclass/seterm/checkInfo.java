@@ -18,7 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
+//매니저가 예약 확인
 public class checkInfo extends AppCompatActivity {
     ListView reservationListView;
     ArrayAdapter adapter;

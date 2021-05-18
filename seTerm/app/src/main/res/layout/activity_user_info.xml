@@ -80,7 +80,7 @@
             />
 
         <Button
-            android:id="@+id/editInfo"
+            android:id="@+id/editUserInfoBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/fontstyle"
