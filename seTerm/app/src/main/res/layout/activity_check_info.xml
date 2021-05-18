@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pink"
+    android:orientation="vertical"
+    tools:context="gachon.mpclass.seterm.userJoinPage">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="left"
+                android:rotation="180"
+                android:src="@drawable/small_flower" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/fontstyle"
+                android:gravity="center"
+                android:text="\예약관리\n"
+                android:textSize="40dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+
+                android:orientation="horizontal">
+
+               <ListView
+                   android:id="@+id/reservationListView"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="\n\n" />
+
+            <Button
+                android:id="@+id/joinInUser"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/button"
+                android:fontFamily="@font/fontstyle"
+                android:text="수정하기"
+                android:textSize="20dp" />
+
+
+            <Button
+                android:id="@+id/joinInUserBack"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_gravity="left"
+                android:background="@drawable/button"
+                android:fontFamily="@font/fontstyle"
+                android:text="뒤로가기"
+                android:textSize="15dp" />
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="right"
+                android:src="@drawable/small_flower" />
+
+
+        </LinearLayout>
+
+</LinearLayout>

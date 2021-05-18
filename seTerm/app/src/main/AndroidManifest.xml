@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SeTerm">
-        <activity android:name=".userInfo"></activity>
+        <activity android:name=".managerEditInfo"></activity>
+        <activity android:name=".checkInfo" />
+        <activity android:name=".userInfo" />
         <activity android:name=".managerInfo" />
         <activity android:name=".managerJoinPage" />
         <activity android:name=".userJoinPage" />

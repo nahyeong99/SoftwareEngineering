@@ -38,7 +38,8 @@ public class startPage extends AppCompatActivity {
         setContentView(R.layout.start_page);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        String uid = firebaseAuth.getCurrentUser().getUid();
+
+       // String uid = firebaseAuth.getCurrentUser().getUid();
 
         userJoinButton=(Button)findViewById(R.id.userJoin);
         editTextEmail = (EditText) findViewById(R.id.loginID);
