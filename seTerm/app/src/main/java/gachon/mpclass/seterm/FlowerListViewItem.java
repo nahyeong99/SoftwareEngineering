@@ -27,10 +27,6 @@ public class FlowerListViewItem {
     public String getUid(){return uid;}
     public String getFileName(){return fileName;}
 
-
-
-
-
     public void setFlowername(String flowername){ this.flowername = flowername;}
     public void setFlowercolor(String flowercolor){ this.flowercolor = flowercolor;}
     public void setFlowernumber(String flowernumber){this.flowernumber = flowernumber;}

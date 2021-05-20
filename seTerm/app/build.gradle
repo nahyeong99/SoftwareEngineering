@@ -26,6 +26,21 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    splits {
+
+        abi {
+
+            enable true
+
+            reset()
+
+            include 'x86', 'x86_64', 'armeabi-v7a', 'armeabi'
+
+            universalApk false
+
+        }
+
+    }
 }
 
 dependencies {
@@ -46,6 +61,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-database'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation files('libs/libDaumMapAndroid.jar')
+    compile fileTree(include: ['*.jar'],dir: 'libs')
+    compile files('libs/libDaumMapAndroid.jar')
+    implementation fileTree(dir: 'C:\\Users\\nahye\\AndroidStudioProjects\\seTerm\\app\\src\\main\\jniLibs', include: ['*.aar', '*.jar'], exclude: [])
+    implementation fileTree(dir: 'src\\main\\jniLibs', include: ['*.aar', '*.jar'], exclude: [])
 }
 
 apply plugin: 'com.android.application'

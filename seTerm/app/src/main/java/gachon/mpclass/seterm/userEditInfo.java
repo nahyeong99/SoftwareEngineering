@@ -61,13 +61,14 @@ public class userEditInfo extends AppCompatActivity {
                 }
                 else {
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                    UserID = task.getResult().child("email").getValue().toString();
-                    viewID.setText(UserID);
+
+                    String email = user.getEmail();
+                    String uid = user.getUid();
+                    viewID.setText(email);
                     //UserPW = task.getResult().child("pwd").getValue().toString();
                     //viewPW.setText(UserPW);
-                    UserName = task.getResult().child("name").getValue().toString();
-                    viewName.setText(UserName);
-                    UserNumber = task.getResult().child("phonenumber").getValue().toString();
+                    viewName.setText(uid);
+                    UserNumber = mDatabase.child("Users").child("phonenumber").get().toString();
                     viewNumber.setText(UserNumber);
 
                 }
@@ -112,10 +113,6 @@ public class userEditInfo extends AppCompatActivity {
         else{
             G.hashMap.put("phonenumber", newNumber);
         }
-
-
-
-
 
         G.hashMap.put("email",UserID);
         reference.child(user.getUid()).setValue(G.hashMap);

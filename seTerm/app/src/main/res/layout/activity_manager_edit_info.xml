@@ -101,13 +101,15 @@
                 android:gravity="center"
                 android:textSize="12dp"
                 android:layout_marginRight="10dp"/>
-            <EditText
-                android:id="@+id/editAddress"
-                android:layout_width="130dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textSize="12dp"
-                />
+            <Button
+                android:id="@+id/managerLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/fontstyle"
+                android:text="가게 위치설정"
+                android:background="@drawable/button"
+                android:textSize="22dp"
+                android:layout_margin="15dp"/>
 
         </LinearLayout>
         <LinearLayout

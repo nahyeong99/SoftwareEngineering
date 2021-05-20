@@ -5,14 +5,19 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@layout/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SeTerm">
-        <activity android:name=".userEditInfo"></activity>
+        <activity android:name=".userEditInfo"/>
+        <activity android:name=".managerLocation"/>
+        <activity android:name=".userLocation" />
         <activity android:name=".managerEditInfo" />
         <activity android:name=".checkInfo" />
         <activity android:name=".userInfo" />
@@ -29,6 +34,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="ab0a54d666844e4d6fdbde3b919ef91e" />
     </application>
 
 </manifest>

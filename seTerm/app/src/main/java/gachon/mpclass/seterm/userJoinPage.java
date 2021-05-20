@@ -117,9 +117,6 @@ public class userJoinPage extends AppCompatActivity {
                     String email = user.getEmail();
                     String uid = user.getUid();
 
-
-
-
                     G.hashMap.put("nickname", uid);
                     G.hashMap.put("email", email);
                     G.hashMap.put("name", name);

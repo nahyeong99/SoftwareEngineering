@@ -2,6 +2,8 @@ package gachon.mpclass.seterm;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,15 +28,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class managerEditInfo extends AppCompatActivity {
+
     String newTime;
     String newName;
-    String newAddress;
     String newLicense;
     String newNumber;
     String managerID, managerLicense,managerAddress,managerName,managerNumber,managerTime;
     EditText editID;
     EditText editLicense;
-    EditText editAddress;
     EditText editName;
     EditText editNumber;
     TextView viewID;
@@ -54,10 +55,11 @@ public class managerEditInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager_edit_info);
+
+        Button managerLocation=(Button)findViewById(R.id.managerLocation);
         firebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         editLicense = findViewById(R.id.editLicense);
-        editAddress = findViewById(R.id.editAddress);
         editName = findViewById(R.id.editName);
         editNumber = findViewById(R.id.editNumber);
         viewID = findViewById(R.id.viewID);
@@ -146,8 +148,6 @@ public class managerEditInfo extends AppCompatActivity {
                     viewID.setText(managerID);
                     managerLicense = task.getResult().child("license").getValue().toString();
                     viewLicense.setText(managerLicense);
-                    managerAddress = task.getResult().child("address").getValue().toString();
-                    viewAddress.setText(managerAddress);
                      managerName = task.getResult().child("name").getValue().toString();
                     viewName.setText(managerName);
                      managerNumber = task.getResult().child("phonenumber").getValue().toString();
@@ -170,6 +170,14 @@ public class managerEditInfo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editInfo();
+            }
+        });
+        managerLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getApplicationContext(), managerLocation.class);
+                startActivity(intent);
             }
         });
     }
@@ -202,16 +210,8 @@ public class managerEditInfo extends AppCompatActivity {
         else{
             G.hashMap.put("license", newLicense);
         }
-         newAddress = editAddress.getText().toString();
-        if(TextUtils.isEmpty(newAddress)) {
-            G.hashMap.put("address", managerAddress);
-        }
-        else{
-            G.hashMap.put("address", newAddress);
-        }
 
         newTime = op_time+":"+op_min+"~"+cl_time+":"+cl_min;
-
 
         G.hashMap.put("email",managerID);
         G.hashMap.put("time", newTime);

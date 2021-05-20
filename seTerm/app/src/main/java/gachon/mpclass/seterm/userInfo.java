@@ -22,6 +22,17 @@ TextView uid;
                 startActivity(intent);
             }
         });
+
+        Button userLocation =(Button)findViewById(R.id.setLocation);
+
+        userLocation.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+
+                Intent intent = new Intent(getApplicationContext(),userLocation.class);
+                startActivity(intent);
+            }
+        });
         
 
     }
