@@ -52,6 +52,15 @@
         android:background="@android:color/transparent"
         app:srcCompat="@android:drawable/ic_menu_delete"
         />
+    <ImageButton
+        android:id="@+id/change"
+        android:layout_width="30dp"
+        android:layout_height="32dp"
+        android:layout_below="@id/iv_preview"
+        android:background="@android:color/transparent"
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        android:layout_toRightOf="@id/delete"/>
+
 
 
 

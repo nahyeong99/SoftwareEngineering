@@ -31,9 +31,9 @@ public class FlowerListViewItem {
 
 
 
-    public void setFlowername(){ this.flowername = flowername;}
-    public void setFlowercolor(){ this.flowercolor = flowercolor;}
-    public void setFlowernumber(){this.flowernumber = flowernumber;}
+    public void setFlowername(String flowername){ this.flowername = flowername;}
+    public void setFlowercolor(String flowercolor){ this.flowercolor = flowercolor;}
+    public void setFlowernumber(String flowernumber){this.flowernumber = flowernumber;}
     public void setUid(){ this.uid = uid;}
     public void setImgUrl(String imgUrl){this.imgUrl=imgUrl;}
 
