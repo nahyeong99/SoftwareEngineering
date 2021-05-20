@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import net.daum.android.map.MapController;
 import net.daum.mf.map.api.MapPOIItem;
@@ -31,8 +37,9 @@ import net.daum.mf.map.api.MapView;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
-public class userLocation extends AppCompatActivity implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener {
+public class managerLocation extends AppCompatActivity implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener {
 
     private static final String LOG_TAG = "MainActivity";
     private MapView mapView;
@@ -41,12 +48,15 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION};
     private GpsTracker gpsTracker;
+    private MapPoint mapPoint;
+    private Double shopLatitude, shopLongitude;
+    private FirebaseAuth uAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_user_location);
+        setContentView(R.layout.activity_manager_location);
 
         Geocoder mGeoCoder = new Geocoder(getApplicationContext());
 
@@ -54,8 +64,11 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
         Button searchLocation = (Button) findViewById(R.id.searchLoc);
         Button set = (Button) findViewById(R.id.set);
         EditText search = (EditText) findViewById(R.id.search);
+        EditText detail = (EditText) findViewById(R.id.detail);
 
-        final TextView textview_address = (TextView)findViewById(R.id.textview);
+        uAuth = FirebaseAuth.getInstance();
+
+        final TextView textview_address = (TextView) findViewById(R.id.textview);
 
         MapPOIItem mapPOIItem = new MapPOIItem();
         //지도를 띄우자
@@ -81,7 +94,9 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
                     resultLocation = mGeoCoder.getFromLocationName(toSearch, 1);
                     mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithMarkerHeadingWithoutMapMoving);
                     mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(resultLocation.get(0).getLatitude(), resultLocation.get(0).getLongitude()), true);
-                    MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(resultLocation.get(0).getLatitude(), resultLocation.get(0).getLongitude());
+                    mapPoint = MapPoint.mapPointWithGeoCoord(resultLocation.get(0).getLatitude(), resultLocation.get(0).getLongitude());
+                    shopLatitude = resultLocation.get(0).getLatitude();
+                    shopLongitude = resultLocation.get(0).getLongitude();
                     marker.setItemName("Default Marker");
                     marker.setTag(0);
                     marker.setMapPoint(mapPoint);
@@ -91,7 +106,7 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
                     mapView.addPOIItem(marker);
                     if (!checkLocationServicesStatus()) {
                         showDialogForLocationServiceSetting();
-                    }else {
+                    } else {
                         checkRunTimePermission();
                     }
                 } catch (IOException e) {
@@ -112,9 +127,11 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
                 textview_address.setText(address);
                 try {
                     mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithMarkerHeadingWithoutMapMoving);
-
                     List<Address> resultLocation = mGeoCoder.getFromLocationName(address, 1);
                     mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(resultLocation.get(0).getLatitude(), resultLocation.get(0).getLongitude()), true);
+                    mapPoint = MapPoint.mapPointWithGeoCoord(resultLocation.get(0).getLatitude(), resultLocation.get(0).getLongitude());
+                    shopLatitude = resultLocation.get(0).getLatitude();
+                    shopLongitude = resultLocation.get(0).getLongitude();
                     mapPOIItem.setMapPoint(MapPoint.mapPointWithGeoCoord(resultLocation.get(0).getLatitude(), resultLocation.get(0).getLongitude()));
                     Log.d(LOG_TAG, "onComplete: 위경도" + resultLocation.get(0).getLatitude() + resultLocation.get(0).getLongitude());
                     mapPOIItem.setMarkerType(MapPOIItem.MarkerType.BluePin);
@@ -125,9 +142,38 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
                 Toast.makeText(getApplicationContext(), "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
             }
         });
+
+        set.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String detailLocation = ((EditText) findViewById(R.id.detail)).getText().toString();
+
+                if (TextUtils.isEmpty(detailLocation)) {
+                    Toast.makeText(getApplicationContext(), "세부주소를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                G.hashMap.put("latitude", shopLatitude.toString());
+                G.hashMap.put("longitude", shopLongitude.toString());
+                G.hashMap.put("detailAdress", detailLocation);
+
+                FirebaseUser user = uAuth.getCurrentUser();
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference reference = database.getReference("Managers");
+                String uid = user.getUid();
+
+                if(reference.child(uid).orderByChild("latitude")!=null){
+                    reference.child(uid).updateChildren(G.hashMap);
+                }
+                finish();
+                Toast.makeText(getApplicationContext(), "위치등록 완료", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    public String getCurrentAddress( double latitude, double longitude) {
+
+    public String getCurrentAddress(double latitude, double longitude) {
 
         //지오코더... GPS를 주소로 변환
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
@@ -151,7 +197,6 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
         }
 
 
-
         if (addresses == null || addresses.size() == 0) {
             Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show();
             return "주소 미발견";
@@ -159,7 +204,7 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
         }
 
         Address address = addresses.get(0);
-        return address.getAddressLine(0).toString()+"\n";
+        return address.getAddressLine(0).toString() + "\n";
 
     }
 
@@ -218,10 +263,10 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
             } else {
                 // 거부한 퍼미션이 있다면 앱을 사용할 수 없는 이유를 설명해주고 앱을 종료합니다.2 가지 경우가 있다
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])) {
-                    Toast.makeText(userLocation.this, "퍼미션이 거부되었습니다. 앱을 다시 실행하여 퍼미션을 허용해주세요.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(managerLocation.this, "퍼미션이 거부되었습니다. 앱을 다시 실행하여 퍼미션을 허용해주세요.", Toast.LENGTH_LONG).show();
                     finish();
                 } else {
-                    Toast.makeText(userLocation.this, "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(managerLocation.this, "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ", Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -231,7 +276,7 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
 
         //런타임 퍼미션 처리
         // 1. 위치 퍼미션을 가지고 있는지 체크합니다.
-        int hasFineLocationPermission = ContextCompat.checkSelfPermission(userLocation.this,
+        int hasFineLocationPermission = ContextCompat.checkSelfPermission(managerLocation.this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
 
         if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED) {
@@ -241,16 +286,16 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
 
         } else {  //2. 퍼미션 요청을 허용한 적이 없다면 퍼미션 요청이 필요합니다. 2가지 경우(3-1, 4-1)가 있습니다.
             // 3-1. 사용자가 퍼미션 거부를 한 적이 있는 경우에는
-            if (ActivityCompat.shouldShowRequestPermissionRationale(userLocation.this, REQUIRED_PERMISSIONS[0])) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(managerLocation.this, REQUIRED_PERMISSIONS[0])) {
                 // 3-2. 요청을 진행하기 전에 사용자가에게 퍼미션이 필요한 이유를 설명해줄 필요가 있습니다.
-                Toast.makeText(userLocation.this, "이 앱을 실행하려면 위치 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
+                Toast.makeText(managerLocation.this, "이 앱을 실행하려면 위치 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
                 // 3-3. 사용자게에 퍼미션 요청을 합니다. 요청 결과는 onRequestPermissionResult에서 수신됩니다.
-                ActivityCompat.requestPermissions(userLocation.this, REQUIRED_PERMISSIONS,
+                ActivityCompat.requestPermissions(managerLocation.this, REQUIRED_PERMISSIONS,
                         PERMISSIONS_REQUEST_CODE);
             } else {
                 // 4-1. 사용자가 퍼미션 거부를 한 적이 없는 경우에는 퍼미션 요청을 바로 합니다.
                 // 요청 결과는 onRequestPermissionResult에서 수신됩니다.
-                ActivityCompat.requestPermissions(userLocation.this, REQUIRED_PERMISSIONS,
+                ActivityCompat.requestPermissions(managerLocation.this, REQUIRED_PERMISSIONS,
                         PERMISSIONS_REQUEST_CODE);
             }
         }
@@ -259,7 +304,7 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
     //여기부터는 GPS 활성화를 위한 메소드들
     private void showDialogForLocationServiceSetting() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(userLocation.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(managerLocation.this);
         builder.setTitle("위치 서비스 비활성화");
         builder.setMessage("앱을 사용하기 위해서는 위치 서비스가 필요합니다.\n"
                 + "위치 설정을 수정하시겠습니까?");

@@ -48,6 +48,7 @@ public class managerJoinPage extends AppCompatActivity {
         Spinner spinner4 = (Spinner)findViewById(R.id.spinner4);
         timeSpinner = getResources().getStringArray(R.array.hour);
         minSpinner = getResources().getStringArray(R.array.min);
+        Button address=(Button)findViewById(R.id.address);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,timeSpinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -127,6 +128,14 @@ public class managerJoinPage extends AppCompatActivity {
                 }
             }
         });
+
+        address.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(getApplicationContext(), managerLocation.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -138,8 +147,7 @@ public class managerJoinPage extends AppCompatActivity {
 
 
     private void flowerShopInfo() {
-        String license = ((EditText) findViewById(R.id.license)).getText().toString();
-        String address = ((EditText) findViewById(R.id.address)).getText().toString();
+        String license = ((EditText) findViewById(R.id.license)).getText().toString();;
         String name = ((EditText) findViewById(R.id.name)).getText().toString();
         String time = op_time+":"+op_min+"~"+cl_time+":"+cl_min;
 
@@ -148,17 +156,10 @@ public class managerJoinPage extends AppCompatActivity {
             Toast.makeText(this, "사업자 등록번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (TextUtils.isEmpty(address)) {
-            Toast.makeText(this, "주소를 입력해 주세요.", Toast.LENGTH_SHORT).show();
-            return;
-        }
         if (TextUtils.isEmpty(name)) {
             Toast.makeText(this, "꽃집 이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
-
-//
-
 
         FirebaseUser user = uAuth.getCurrentUser();
 
@@ -166,13 +167,9 @@ public class managerJoinPage extends AppCompatActivity {
         String email = user.getEmail();
         String uid = user.getUid();
 
-
-
         G.hashMap.put("license", license);
         G.hashMap.put("name",name);
-        G.hashMap.put("address", address);
         G.hashMap.put("time", time);
-
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("Managers");

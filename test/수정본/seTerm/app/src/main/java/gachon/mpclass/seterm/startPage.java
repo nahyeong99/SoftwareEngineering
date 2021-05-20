@@ -56,7 +56,6 @@ public class startPage extends AppCompatActivity {
         userJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(getApplicationContext(), userJoinPage.class);
                 startActivity(intent);
             }

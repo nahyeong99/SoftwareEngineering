@@ -7,20 +7,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class managerInfo extends AppCompatActivity {
+public class managerInfoEdit extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manager_info);
+        setContentView(R.layout.activity_manager_info_edit);
 
-        Button infoEdit=(Button)findViewById(R.id.editInfo);
+        Button managerLocation=(Button)findViewById(R.id.managerLocation);
 
-        infoEdit.setOnClickListener(new View.OnClickListener() {
+        managerLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(getApplicationContext(), managerInfoEdit.class);
+                Intent intent = new Intent(getApplicationContext(), managerLocation.class);
                 startActivity(intent);
             }
         });

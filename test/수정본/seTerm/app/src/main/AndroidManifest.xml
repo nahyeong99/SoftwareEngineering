@@ -5,18 +5,18 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-
     <application
-        android:usesCleartextTraffic="true"
-        android:networkSecurityConfig="@layout/network_security_config"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@layout/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SeTerm">
-
-        <activity android:name=".userLocation"></activity>
+        android:theme="@style/Theme.SeTerm"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".managerLocation"></activity>
+        <activity android:name=".managerInfoEdit" />
+        <activity android:name=".userLocation" />
         <activity android:name=".userInfo" />
         <activity android:name=".managerInfo" />
         <activity android:name=".managerJoinPage" />
@@ -28,7 +28,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data android:name="com.kakao.sdk.AppKey" android:value="ab0a54d666844e4d6fdbde3b919ef91e"/>
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="ab0a54d666844e4d6fdbde3b919ef91e" />
     </application>
 
 </manifest>
