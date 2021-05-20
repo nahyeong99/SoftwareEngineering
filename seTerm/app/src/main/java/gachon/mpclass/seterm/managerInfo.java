@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
 import android.widget.Button;
 
 public class managerInfo extends AppCompatActivity {
@@ -30,6 +31,13 @@ public class managerInfo extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //재고관리로 이동
+
+        Reservation.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), stockActivity.class);
+            startActivityForResult(intent,1);});
+
     }
 
 
