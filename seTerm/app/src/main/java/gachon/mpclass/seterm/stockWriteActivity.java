@@ -204,7 +204,7 @@ public class stockWriteActivity extends AppCompatActivity {
                                     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
                                     //여기서 업로드
-                                    FlowerListViewItem list=new FlowerListViewItem(name,color,G.imgUrl,num,G.fileName,uid);
+                                    FlowerListViewItem list=new FlowerListViewItem(name,color,G.imgUrl,num,uid,G.fileName);
                                     databaseReference.child("Managers").child(uid).child("Flowers").push().setValue(list);
 
                                 }
