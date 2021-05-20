@@ -65,8 +65,6 @@ public class managerLocation extends AppCompatActivity implements MapView.Curren
 
         uAuth = FirebaseAuth.getInstance();
 
-        final TextView textview_address = (TextView) findViewById(R.id.textview);
-
         MapPOIItem mapPOIItem = new MapPOIItem();
         //지도를 띄우자
         // java code
@@ -121,7 +119,7 @@ public class managerLocation extends AppCompatActivity implements MapView.Curren
                 double longitude = gpsTracker.getLongitude();
 
                 String address = getCurrentAddress(latitude, longitude);
-                textview_address.setText(address);
+                search.setText(address);
                 try {
                     mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithMarkerHeadingWithoutMapMoving);
                     List<Address> resultLocation = mGeoCoder.getFromLocationName(address, 1);
