@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity ="center"
+        android:fillViewport="true"
+        android:layout_marginTop="0dp"
+        android:id="@+id/scrollView">
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/flowername"
+                android:layout_width="fill_parent"
+                android:layout_height="70dp"
+                android:layout_gravity="start"
+                android:layout_margin="5dp"
+                android:background="@null"
+                android:hint="꽃의 종류를 입력하세요"/>
+
+            <EditText
+                android:id="@+id/flowercolor"
+                android:layout_width="fill_parent"
+                android:layout_height="70dp"
+                android:layout_below="@id/flowername"
+                android:layout_margin="5dp"
+                android:background="@null"
+                android:hint="꽃의 색상을 입력하세요"
+                android:layout_gravity="start"/>
+            <EditText
+                android:id="@+id/flowernumber"
+                android:layout_width="fill_parent"
+                android:layout_height="70dp"
+                android:layout_below="@id/flowercolor"
+                android:layout_margin="5dp"
+                android:background="@null"
+                android:layout_gravity="start"
+                android:hint="꽃의 수량을 입력하세요" />
+
+            <ImageView
+                android:id="@+id/iv_preview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/flowernumber"
+                />
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ImageButton
+        android:id="@+id/imageUploadButton"
+        android:layout_width="wrap_content"
+        android:layout_height="53dp"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:backgroundTint="@color/pink"
+        />
+    <Button
+        android:id="@+id/upload"
+        android:layout_height="53dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:text="등록"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/imageUploadButton"
+        android:backgroundTint="@color/pink"/>
+
+
+</RelativeLayout>
