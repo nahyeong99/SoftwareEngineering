@@ -36,7 +36,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Termproject_AlarmYou" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/seTerm" />
     <property name="settings.editor.selected.configurable" value="configurable.group.build" />
   </component>
   <component name="SvnConfiguration">
@@ -62,15 +62,16 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1621173763614">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1621173763614" />
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1621173161210">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1621535993186">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1621173161210" />
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1621535993186" />
   </component>
 </project>

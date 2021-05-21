@@ -50,7 +50,10 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
 
         Button myLocation = (Button) findViewById(R.id.myLocation);
         Button searchLocation = (Button) findViewById(R.id.searchLoc);
+        Button set = (Button) findViewById(R.id.set);
         EditText search = (EditText) findViewById(R.id.search);
+
+        final TextView textview_address = (TextView)findViewById(R.id.textview);
 
         MapPOIItem mapPOIItem = new MapPOIItem();
         //지도를 띄우자
@@ -104,7 +107,7 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
                 double longitude = gpsTracker.getLongitude();
 
                 String address = getCurrentAddress(latitude, longitude);
-                search.setText(address);
+                textview_address.setText(address);
                 try {
                     mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithMarkerHeadingWithoutMapMoving);
 
@@ -117,6 +120,7 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                Toast.makeText(getApplicationContext(), "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
             }
         });
     }

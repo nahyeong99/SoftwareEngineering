@@ -15,6 +15,7 @@ TextView uid;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
         Button editInfoBtn = findViewById(R.id.editUserInfoBtn);
+        Button reservationBtn = findViewById(R.id.reservation);
         editInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,7 +34,13 @@ TextView uid;
                 startActivity(intent);
             }
         });
-        
+        reservationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),userReservation.class);
+                startActivity(intent);
+            }
+        });
 
     }
 }
