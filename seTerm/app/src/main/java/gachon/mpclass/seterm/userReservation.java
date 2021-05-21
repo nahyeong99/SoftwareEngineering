@@ -3,9 +3,12 @@ package gachon.mpclass.seterm;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -40,7 +43,7 @@ public class userReservation extends AppCompatActivity {
     FirebaseUser manager;
     private ListView shopListView;
     private ArrayAdapter<String> adapter;
-    List<Object> Array = new ArrayList<Object>();
+    List<String> Array = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,11 +86,12 @@ public class userReservation extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     String shopName = ds.child("name").getValue(String.class);
+                    String uid = ds.getKey();
                     String detailAddress = ds.child("detailAdress").getValue(String.class);
                     String longitude = ds.child("longitude").getValue(String.class);
                     String latitude = ds.child("latitude").getValue(String.class);
-                    Log.d("TAG", longitude + " / " + latitude);
-
+                    Log.d("TAG", longitude + " / " + latitude+"--"+uid);
+                    Array.add(uid);
                     if(managerLatitude != null&& managerLongitude != null) {
                    managerLatitude = Double.parseDouble(latitude);
                    managerLongitude = Double.parseDouble(longitude);
@@ -96,6 +100,7 @@ public class userReservation extends AppCompatActivity {
 
                         distance = userLocation.distanceTo(ManagerLocation);
                         String d  = Float.toString(distance);
+                       // Array.add()
                         adapter.add("[" + shopName + "]" + detailAddress + "\ndistance:" + d);
                     }
                     else{
@@ -109,6 +114,26 @@ public class userReservation extends AppCompatActivity {
             });
 
             shopListView.setAdapter(adapter);
+         shopListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+                    // 상세정보 화면으로 이동하기(인텐트 날리기)
+                    // 1. 다음화면을 만든다
+                    // 2. AndroidManifest.xml 에 화면을 등록한다
+                    // 3. Intent 객체를 생성하여 날린다
+                    Intent intent = new Intent(
+                            getApplicationContext(), // 현재화면의 제어권자
+                            userReservationDetail.class); // 다음넘어갈 화면
+
+                    // intent 객체에 데이터를 실어서 보내기
+                    // 리스트뷰 클릭시 인텐트 (Intent) 생성하고 position 값을 이용하여 인텐트로 넘길값들을 넘긴다
+                    intent.putExtra("uid", Array.get(position));
+
+
+                    startActivity(intent);
+                }
+            });
 
 
 
