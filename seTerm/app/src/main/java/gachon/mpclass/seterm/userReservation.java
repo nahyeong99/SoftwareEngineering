@@ -73,7 +73,7 @@ public class userReservation extends AppCompatActivity {
 
                         userLocation.setLatitude(userLatitude);
                         userLocation.setLongitude(userLongitude);
-
+                    Toast.makeText(getApplicationContext(),userLatitude+" / "+userLongitude,Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -93,10 +93,10 @@ public class userReservation extends AppCompatActivity {
                    managerLongitude = Double.parseDouble(longitude);
                         ManagerLocation.setLatitude(managerLatitude);
                         ManagerLocation.setLongitude(managerLongitude);
-                   Toast.makeText(getApplicationContext(),userLatitude+" "+userLongitude,Toast.LENGTH_LONG).show();
+
                         distance = userLocation.distanceTo(ManagerLocation);
                         String d  = Float.toString(distance);
-                        adapter.add("[" + shopName + "]" + detailAddress + "\ndistance:" + d+"\n"+latitude+"/"+longitude);
+                        adapter.add("[" + shopName + "]" + detailAddress + "\ndistance:" + d);
                     }
                     else{
                         adapter.add("[" + shopName + "]" + detailAddress + " distance:" + distance);
