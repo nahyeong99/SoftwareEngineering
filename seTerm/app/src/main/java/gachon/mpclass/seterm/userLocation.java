@@ -116,7 +116,7 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
                 userLongitude = gpsTracker.getLongitude();
 
                 String address = getCurrentAddress(userLatitude, userLongitude);
-               
+
                 try {
                     mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithMarkerHeadingWithoutMapMoving);
 

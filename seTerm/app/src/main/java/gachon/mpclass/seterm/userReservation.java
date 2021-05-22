@@ -96,33 +96,35 @@ public class userReservation extends AppCompatActivity implements shopListAdapte
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     Manager manager = ds.getValue(Manager.class);
-                    list.add(manager);
+                    String name = manager.getName();
+                    String address = manager.getAddress();
+                    String nickname = manager.getNickname();
+                   String num =  manager.getPhonenumber();
+                   String lat = manager.getLatitude();
+                   String longi = manager.getLongitude();
+                    Log.d("TAG", "전화번호 "+num+" 위도/경도:"+lat+"/"+longi);
+
                     String shopName = ds.child("name").getValue(String.class);
                     String uid = ds.getKey();
                     String detailAddress = ds.child("detailAdress").getValue(String.class);
                     String longitude = ds.child("longitude").getValue(String.class);
                     String latitude = ds.child("latitude").getValue(String.class);
-                    Log.d("TAG", "String:  "+ longitude + " / " + latitude+"--"+uid);
 
                     if(detailAddress!=null&&latitude != null&& longitude != null) {
-                    managerLatitude = Double.parseDouble(latitude);
-                     managerLongitude = Double.parseDouble(longitude);
-                        Log.d("TAG", "Double:  "+managerLatitude + " / " + managerLongitude+"--"+uid);
-                        ManagerLocation.setLatitude(37.3275966);
-                        ManagerLocation.setLongitude(126.8607009);
+                    managerLatitude = Double.parseDouble(lat);
+                     managerLongitude = Double.parseDouble(longi);
+                        ManagerLocation.setLatitude(managerLatitude);
+                        ManagerLocation.setLongitude(managerLongitude);
 
                         distance = userLocation.distanceTo(ManagerLocation);
                          d  = Float.toString(distance);
 
-                       // listItem.setDistance(d);
-                       // listItem.setDetailAddress(detailAddress);
-                      //  listItem.setName(shopName);
-                       // listItem.setUid(uid);
-                        adapter.addItem(shopName, detailAddress, d, uid);
+                        Log.d("TAG", "Distance: "+distance);
+                        if(distance < 3000) {
+                            list.add(manager);
+                            adapter.addItem(name, address, num, nickname);
+                        }
 
-                      // if(distance < 4000) {
-                        //   adapter.add("[" + shopName + "]" + detailAddress + "\ndistance:" + d);
-                      //  }
                     }
 
             }
@@ -146,7 +148,6 @@ public class userReservation extends AppCompatActivity implements shopListAdapte
             case R.id.gotoReserve:
                 Intent intent = new Intent(getApplicationContext(), userReservationDetail.class);
                 intent.putExtra("uid", uid);
-                Log.d("TAG", "개빡쳐:  "+uid);
                 startActivity(intent);
                 break;
 

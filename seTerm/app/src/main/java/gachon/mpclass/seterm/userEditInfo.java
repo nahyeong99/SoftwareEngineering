@@ -28,7 +28,7 @@ public class userEditInfo extends AppCompatActivity {
     String newName;
     String newNumber;
     String UserID, UserName,UserNumber;
-
+String nickname;
     EditText editName;
     EditText editNumber;
     TextView viewID;
@@ -53,6 +53,7 @@ public class userEditInfo extends AppCompatActivity {
         viewNumber = findViewById(R.id.viewUserNumber);
 
         user=firebaseAuth.getCurrentUser();
+        nickname = user.getUid();
         mDatabase.child("Customers").child(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -114,7 +115,7 @@ public class userEditInfo extends AppCompatActivity {
         else{
             G.hashMap.put("phonenumber", newNumber);
         }
-
+        G.hashMap.put("nickname",nickname);
         G.hashMap.put("email",UserID);
         reference.child(user.getUid()).setValue(G.hashMap);
         G.hashMap.clear();

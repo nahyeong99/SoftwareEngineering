@@ -46,5 +46,13 @@ public class Manager {
     public String getPhonenumber() {
         return phonenumber;
     }
-
+    public String getLatitude() {
+        return latitude;
+    }
+    public String getLongitude(){
+        return longitude;
+    }
+    public String getNickname(){
+        return nickname;
+    }
 }

@@ -131,7 +131,7 @@ public interface ListBtnClickListener{
         @Override
          public void onClick(View view) {
              if (this.listBtnClickListener != null) {
-                 Log.d("TAG", "Double: 왕왕");
+
                  this.listBtnClickListener.onListBtnClick((int) view.getTag(), view.getId());
              }
          }
