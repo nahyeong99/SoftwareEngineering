@@ -64,6 +64,7 @@ String nickname;
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
 
                     String email = user.getEmail();
+                    UserID = email;
                     String uid = user.getUid();
                     viewID.setText(email);
                     //UserPW = task.getResult().child("pwd").getValue().toString();
