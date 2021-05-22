@@ -28,7 +28,8 @@ public class userReservationDetail extends AppCompatActivity {
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReference;
     private ChildEventListener mChild;
-    ArrayList<FlowerListViewItem> item=new ArrayList<FlowerListViewItem>();
+    ArrayList<FlowerListViewItem> item = new ArrayList<FlowerListViewItem>();
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_reservation_detail);
@@ -36,13 +37,14 @@ public class userReservationDetail extends AppCompatActivity {
 
         Intent intent = getIntent();
         uid = intent.getStringExtra("uid");
-        Toast.makeText(getApplicationContext(),"uid: "+uid,Toast.LENGTH_LONG).show();}
-      /*  initDatabase();
+        Toast.makeText(getApplicationContext(), "uid: " + uid, Toast.LENGTH_LONG).show();
+        listView = (ListView) findViewById(R.id.listview1);
+        initDatabase();
 
-        FlowerListView_Adapter adapter=new FlowerListView_Adapter(item);
+        FlowerListView_Adapter adapter = new FlowerListView_Adapter(item);
         listView.setAdapter(adapter);
 
-        mReference=mDatabase.getReference().child("Managers").child(uid).child("Flowers");
+        mReference = mDatabase.getReference().child("Managers").child(uid).child("Flowers");
         //새롭게 받은 방법,,
         mReference.addChildEventListener(new ChildEventListener() {
             //새로 추가된 것만 줌 ValueListener는 하나의 값만 바뀌어도 처음부터 다시 값을 줌
@@ -50,7 +52,7 @@ public class userReservationDetail extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
                 //새로 추가된 데이터(값 : MessageItem객체) 가져오기
-                FlowerListViewItem listViewItem= dataSnapshot.getValue(FlowerListViewItem.class);
+                FlowerListViewItem listViewItem = dataSnapshot.getValue(FlowerListViewItem.class);
 
                 //새로운 메세지를 리스뷰에 추가하기 위해 ArrayList에 추가
                 item.add(listViewItem);
@@ -59,7 +61,7 @@ public class userReservationDetail extends AppCompatActivity {
 
                 //리스트뷰를 갱신
                 adapter.notifyDataSetChanged();
-                listView.setSelection(adapter.getCount()-1); //리스트뷰의 마지막 위치로 스크롤 위치 이동
+                listView.setSelection(adapter.getCount() - 1); //리스트뷰의 마지막 위치로 스크롤 위치 이동
             }
 
             @Override
@@ -86,11 +88,11 @@ public class userReservationDetail extends AppCompatActivity {
 
             }
         });
-        listView.setAdapter(adapter);
+
     }
 
 
-    private void initDatabase () {
+    private void initDatabase() {
 
         mDatabase = FirebaseDatabase.getInstance();
 
@@ -128,9 +130,8 @@ public class userReservationDetail extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy () {
+    protected void onDestroy() {
         super.onDestroy();
         mReference.removeEventListener(mChild);
-    }*/
-
+    }
 }

@@ -9,6 +9,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
@@ -31,7 +37,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class userLocation extends AppCompatActivity implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener {
-
+    private FirebaseAuth uAuth;
     private static final String LOG_TAG = "MainActivity";
     private MapView mapView;
     private ViewGroup mapViewContainer;
@@ -39,7 +45,7 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION};
     private GpsTracker gpsTracker;
-
+    private Double userLatitude, userLongitude;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,11 +86,14 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
                     mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithMarkerHeadingWithoutMapMoving);
                     mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(resultLocation.get(0).getLatitude(), resultLocation.get(0).getLongitude()), true);
                     MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(resultLocation.get(0).getLatitude(), resultLocation.get(0).getLongitude());
+
                     marker.setItemName("Default Marker");
                     marker.setTag(0);
                     marker.setMapPoint(mapPoint);
                     marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
                     marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+                    userLatitude = resultLocation.get(0).getLatitude();
+                    userLongitude = resultLocation.get(0).getLongitude();
                     Log.d(LOG_TAG, "onComplete: 위경도" + resultLocation.get(0).getLatitude() + resultLocation.get(0).getLongitude());
                     mapView.addPOIItem(marker);
                     if (!checkLocationServicesStatus()) {
@@ -103,11 +112,11 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
             public void onClick(View v) {
                 gpsTracker = new GpsTracker(getApplicationContext());
                 search.setText("");
-                double latitude = gpsTracker.getLatitude();
-                double longitude = gpsTracker.getLongitude();
+                userLatitude = gpsTracker.getLatitude();
+                userLongitude = gpsTracker.getLongitude();
 
-                String address = getCurrentAddress(latitude, longitude);
-                textview_address.setText(address);
+                String address = getCurrentAddress(userLatitude, userLongitude);
+               
                 try {
                     mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithMarkerHeadingWithoutMapMoving);
 
@@ -120,7 +129,31 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(getApplicationContext(), "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "현재위치 \n위도 " + userLatitude + "\n경도 " + userLongitude, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        uAuth = FirebaseAuth.getInstance();
+        set.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+                G.hashMap.put("latitude", userLatitude.toString());
+                G.hashMap.put("longitude", userLongitude.toString());
+
+                FirebaseUser user = uAuth.getCurrentUser();
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference reference = database.getReference("Customers");
+                String uid = user.getUid();
+
+                if(reference.child(uid).orderByChild("latitude")!=null){
+                    reference.child(uid).updateChildren(G.hashMap);
+                }
+                Toast.makeText(getApplicationContext(), "위치등록 완료", Toast.LENGTH_SHORT).show();
+                finish();
+
             }
         });
     }
