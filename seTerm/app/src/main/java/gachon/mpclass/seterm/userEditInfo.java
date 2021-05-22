@@ -71,7 +71,7 @@ String nickname;
                     //viewPW.setText(UserPW);
                     UserName = task.getResult().child("name").getValue().toString();
                     viewName.setText(UserName);
-                    UserNumber = mDatabase.child("Users").child("phonenumber").get().toString();
+                    UserNumber = task.getResult().child("phonenumber").getValue().toString();
                     viewNumber.setText(UserNumber);
 
                 }

@@ -59,7 +59,7 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
         Button set = (Button) findViewById(R.id.set);
         EditText search = (EditText) findViewById(R.id.search);
 
-        final TextView textview_address = (TextView)findViewById(R.id.textview);
+      //  final TextView textview_address = (TextView)findViewById(R.id.textview);
 
         MapPOIItem mapPOIItem = new MapPOIItem();
         //지도를 띄우자
