@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ public class userReservationDetail extends AppCompatActivity {
     String uid;
 
     ListView listView;
+    EditText EditTextflowerNum;
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReference;
@@ -35,9 +37,14 @@ public class userReservationDetail extends AppCompatActivity {
         setContentView(R.layout.activity_user_reservation_detail);
         mReference = FirebaseDatabase.getInstance().getReference();
 
+
+
+
+
+
         Intent intent = getIntent();
         uid = intent.getStringExtra("uid");
-        Toast.makeText(getApplicationContext(), "uid: " + uid, Toast.LENGTH_LONG).show();
+
         listView = (ListView) findViewById(R.id.listview1);
         initDatabase();
 
@@ -50,7 +57,6 @@ public class userReservationDetail extends AppCompatActivity {
             //새로 추가된 것만 줌 ValueListener는 하나의 값만 바뀌어도 처음부터 다시 값을 줌
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
                 //새로 추가된 데이터(값 : MessageItem객체) 가져오기
                 FlowerListViewItem listViewItem = dataSnapshot.getValue(FlowerListViewItem.class);
 

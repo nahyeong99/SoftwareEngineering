@@ -17,7 +17,8 @@
             android:orientation="vertical"
             android:id="@+id/layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/pink">
 
             <EditText
                 android:id="@+id/flowername"
@@ -26,6 +27,7 @@
                 android:layout_gravity="start"
                 android:layout_margin="5dp"
                 android:background="@null"
+                android:fontFamily="@font/fontstyle"
                 android:hint="꽃의 종류를 입력하세요"/>
 
             <EditText
@@ -35,6 +37,7 @@
                 android:layout_below="@id/flowername"
                 android:layout_margin="5dp"
                 android:background="@null"
+                android:fontFamily="@font/fontstyle"
                 android:hint="꽃의 색상을 입력하세요"
                 android:layout_gravity="start"/>
             <EditText
@@ -45,6 +48,7 @@
                 android:layout_margin="5dp"
                 android:background="@null"
                 android:layout_gravity="start"
+                android:fontFamily="@font/fontstyle"
                 android:hint="꽃의 수량을 입력하세요" />
 
             <ImageView

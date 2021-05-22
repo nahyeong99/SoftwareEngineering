@@ -24,6 +24,10 @@ public class checkInfo extends AppCompatActivity {
     ArrayAdapter adapter;
     FirebaseAuth firebaseAuth;
     private ValueEventListener mDatabase;
+    String customerName;
+    String customerPn;
+    String flowerName;
+    String flowerColor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,12 +37,55 @@ public class checkInfo extends AppCompatActivity {
         reservationListView = findViewById(R.id.reservationListView);
         adapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_1);
-        // FirebaseUser user=firebaseAuth.getCurrentUser();
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Customers").addValueEventListener(new ValueEventListener() {
+         FirebaseUser user=firebaseAuth.getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Managers").child(user.getUid()).child("reservation").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot datasnapshot : snapshot.getChildren()) {
-                    adapter.add(datasnapshot.getValue());
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    reservation reservation1 = ds.getValue(reservation.class);
+                    String num = reservation1.getNum();
+                    String CustomerUid = reservation1.getCustomerUid();
+                    String flowerUid = reservation1.getFlowerUid();
+
+
+                   // num = ds.child("flowerNum").getValue(String.class);
+                   CustomerUid = ds.child("CustomerUid").getValue(String.class);
+                   flowerUid = ds.child("flowerUid").getValue(String.class);
+                    adapter.add("꽃이름: "+flowerUid+" 꽃개수: "+num+" 고객이름: "+CustomerUid);
+                    DatabaseReference crf = FirebaseDatabase.getInstance().getReference().child("Customers");
+                    DatabaseReference frf = FirebaseDatabase.getInstance().getReference().child("Managers").child("Flowers");
+/*
+                   crf.child(CustomerUid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                       @Override
+                       public void onComplete(@NonNull Task<DataSnapshot> task) {
+                           if (!task.isSuccessful()) {
+                               Log.e("firebase", "Error getting data", task.getException());
+                           }
+                           else {
+                               Log.d("firebase", String.valueOf(task.getResult().getValue()));
+
+                               customerName = task.getResult().child("name").getValue().toString();
+                               customerPn = task.getResult().child("phonenumber").getValue().toString();
+
+                           }
+                       }
+                   });
+                   frf.child(CustomerUid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                       @Override
+                       public void onComplete(@NonNull Task<DataSnapshot> task) {
+                           if (!task.isSuccessful()) {
+                               Log.e("firebase", "Error getting data", task.getException());
+                           }
+                           else {
+                               Log.d("firebase", String.valueOf(task.getResult().getValue()));
+
+                               flowerColor = task.getResult().child("flowercolor").getValue().toString();
+                               flowerName = task.getResult().child("flowername").getValue().toString();
+                           }
+                       }
+                   });
+                  adapter.add("["+customerName+"]"+" 전화번호: "+customerPn+"\n"+flowerColor+flowerName+" "+num"송이");*/
+
                 }
             }
 
@@ -47,7 +94,7 @@ public class checkInfo extends AppCompatActivity {
 
             }
             });
-            reservationListView.setAdapter(adapter);
 
+        reservationListView.setAdapter(adapter);
     }
 }

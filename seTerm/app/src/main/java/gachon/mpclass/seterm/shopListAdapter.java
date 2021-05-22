@@ -95,25 +95,7 @@ public interface ListBtnClickListener{
             final TextView AddressTextView = (TextView) convertView.findViewById(R.id.detailAddress);
             final TextView distanceTextView = (TextView) convertView.findViewById(R.id.distance);
             final TextView uidTextView = (TextView) convertView.findViewById(R.id.uid);
-         /*   Button gotoReserve = (Button) convertView.findViewById(R.id.gotoReserve);
-            gotoReserve.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(context,userReservationDetail.class);
-                    intent.putExtra("uid",uid);
-                }
-            });*/
 
-          /*  try{
-                if (listItem.getDone().equals("false")){
-                    doneCheck.setImageResource(R.drawable.done_not_checked_image);
-                }
-                else if(listItem.getDone().equals("true")){
-                    doneCheck.setImageResource(R.drawable.done_checked_image);
-                }
-            }catch (Exception e){
-                Log.d("error", "no!");
-            }*/
 
 
             // 가져온 데이터를 텍스트뷰에 입력
