@@ -103,38 +103,52 @@ public class FlowerListView_Adapter extends BaseAdapter {
         String Uid = user.getUid(); //현재사용
         String post = list.getUid(); //글쓴사용자
 
+        try {
+            if (Uid != null) {
+                if (Uid.equals(post)) {
+                    showButton(delete);
+                    delete.setOnClickListener(new View.OnClickListener() {
+                        FirebaseStorage storage = FirebaseStorage.getInstance();
+                        StorageReference storageRef = storage.getReferenceFromUrl("gs://seterm-d4ac0.appspot.com").child("flower/" + list.getFileName());
 
-        delete.setOnClickListener(new View.OnClickListener() {
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference storageRef = storage.getReferenceFromUrl("gs://seterm-d4ac0.appspot.com").child("flower/" + list.getFileName());
+                        @Override
+                        public void onClick(View v) {
+                            storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    //사진 삭제 성공
 
-            @Override
-            public void onClick(View v) {
-                storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        //사진 삭제 성공
-
-                    }
-                });
-                dbRef.child(G.keyList.get(position)).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(context, "삭제 성공", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                                }
+                            });
+                            dbRef.child(G.keyList.get(position)).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(context, "삭제 성공", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    });
+                    showButton(change);
+                } else {
+                    hideButton(delete);
+                    hideButton(change);
+                }
             }
-        });
+        } catch (NullPointerException ignored) {
+
+        }
+
+
         change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                View view = LayoutInflater.from(context).inflate(R.layout.activity_edit,null,false);
+                View view = LayoutInflater.from(context).inflate(R.layout.activity_edit, null, false);
                 builder.setView(view);
-                final Button edit = (Button)view.findViewById(R.id.upload);
-                final EditText name = (EditText)view.findViewById(R.id.flowername);
-                final EditText color = (EditText)view.findViewById(R.id.flowercolor);
-                final EditText num = (EditText)view.findViewById(R.id.flowernumber);
+                final Button edit = (Button) view.findViewById(R.id.upload);
+                final EditText name = (EditText) view.findViewById(R.id.flowername);
+                final EditText color = (EditText) view.findViewById(R.id.flowercolor);
+                final EditText num = (EditText) view.findViewById(R.id.flowernumber);
 
                 name.setText(list.getFlowername());
                 color.setText(list.getFlowercolor());
@@ -167,7 +181,8 @@ public class FlowerListView_Adapter extends BaseAdapter {
                         });
                         dialog.dismiss();
                     }
-                });dialog.show();
+                });
+                dialog.show();
             }
         });
 
