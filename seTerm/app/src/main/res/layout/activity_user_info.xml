@@ -29,7 +29,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/top"
             android:fontFamily="@font/fontstyle"
-            android:text="oo님"
             android:textSize="50dp"
             android:gravity="center"
             android:layout_marginTop="50dp"/>
