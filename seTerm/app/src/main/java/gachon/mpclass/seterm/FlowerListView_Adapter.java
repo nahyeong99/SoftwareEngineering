@@ -118,9 +118,18 @@ public class FlowerListView_Adapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 String flowerNum = editTextflowerNum.getText().toString();
-                String managerID = list.getUid();
-                DatabaseReference rf = reserveRef.child(managerID).child("reservation");
-                flowerUid = dbRef.child(G.keyList.get(position)).getKey();
+                int f1 = Integer.parseInt(list.getFlowernumber());
+                int f2 = Integer.parseInt(flowerNum);
+                int f3 = f1-f2;
+                if (f1>=f2) {
+
+                    String flower = Integer.toString(f3);
+
+                    String managerID = list.getUid();
+                    DatabaseReference rf = reserveRef.child(managerID).child("reservation");
+                    flowerUid = dbRef.child(G.keyList.get(position)).getKey();
+                    list.setFlowernumber(flower);
+                    FirebaseDatabase.getInstance().getReference().child("Managers").child(post).child("Flowers").child(G.keyList.get(position)).child("flowernumber").setValue(flower);
               /*  dbRef.child(G.keyList.get(position)).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -136,14 +145,22 @@ public class FlowerListView_Adapter extends BaseAdapter {
                         }
                     }
                 });*/
-                String uUid = user.getUid();//이 꽃을 예약한 customer 아이디
-                Log.d("TAG", "꽃 아이디: " + flowerUid);
-                G.hashMap.put("CustomerUid", uUid);
-                G.hashMap.put("flowernum", flowerNum);
-                G.hashMap.put("flowerUid", flowerUid);
-                G.hashMap.put("flowername", flowername);
-                G.hashMap.put("flowercolor", flowercolor);
-                rf.push().setValue(G.hashMap);
+                    String uUid = user.getUid();//이 꽃을 예약한 customer 아이디
+                    Log.d("TAG", "꽃 아이디: " + flowerUid);
+                    G.hashMap.put("CustomerUid", uUid);
+                    G.hashMap.put("flowernum", flowerNum);
+                    G.hashMap.put("flowerUid", flowerUid);
+                    G.hashMap.put("flowername", flowername);
+                    G.hashMap.put("flowercolor", flowercolor);
+                    rf.push().setValue(G.hashMap);
+                    G.hashMap.clear();
+                    notifyDataSetChanged();
+//                Intent intent = new Intent(parent.getContext(),userCheckReservation.class);
+//                context.startActivity(intent);
+                } else {
+                    Toast.makeText(parent.getContext(), "남은 수량보다 큰 수는 입력할 수 없습니다", Toast.LENGTH_SHORT);
+                }
+
 
             }
         });

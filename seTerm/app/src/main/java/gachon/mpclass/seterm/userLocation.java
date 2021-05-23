@@ -152,6 +152,7 @@ public class userLocation extends AppCompatActivity implements MapView.CurrentLo
                     reference.child(uid).updateChildren(G.hashMap);
                 }
                 Toast.makeText(getApplicationContext(), "위치등록 완료", Toast.LENGTH_SHORT).show();
+                G.hashMap.clear();
                 finish();
 
             }
