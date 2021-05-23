@@ -43,4 +43,9 @@
         <item>55</item>
 
     </string-array>
+
+    <string name="alert_title_question">질문</string>
+    <string name="alert_msg_delete">"%s"를 삭제하시겠습니까?</string>
+    <string name="button_yes">예</string>
+    <string name="button_no">아니오</string>
 </resources>

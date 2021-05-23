@@ -48,7 +48,7 @@ public class FlowerListView_Adapter extends BaseAdapter {
     ArrayList<FlowerListViewItem> data;
     int check = 0;
     FirebaseAuth uAuth;
-String flowerUid;
+    String flowerUid;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("Managers").child(user.getUid()).child("Flowers");
     DatabaseReference reserveRef = FirebaseDatabase.getInstance().getReference().child("Managers");//child(user.getUid()).child("reservation");
@@ -106,9 +106,9 @@ String flowerUid;
         EditText editTextflowerNum = convertView.findViewById(R.id.userflowerNum);
 
 
-
         String Uid = user.getUid(); //현재사용
         String post = list.getUid(); //글쓴사용자
+
 
         reserve.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,82 +116,98 @@ String flowerUid;
                 String flowerNum = editTextflowerNum.getText().toString();
                 String managerID = list.getUid();
                 DatabaseReference rf = reserveRef.child(managerID).child("reservation");
-                flowerUid =  dbRef.child(G.keyList.get(position)).getKey();
-               String uUid = user.getUid();//이 꽃을 예약한 customer 아이디
-                Log.d("TAG", "꽃 아이디: "+flowerUid);
+                flowerUid = dbRef.child(G.keyList.get(position)).getKey();
+                String uUid = user.getUid();//이 꽃을 예약한 customer 아이디
+                Log.d("TAG", "꽃 아이디: " + flowerUid);
                 G.hashMap.put("CustomerUid", uUid);
-                G.hashMap.put("flowernum",flowerNum);
-                G.hashMap.put("flowerUid",flowerUid);
+                G.hashMap.put("flowernum", flowerNum);
+                G.hashMap.put("flowerUid", flowerUid);
                 rf.push().setValue(G.hashMap);
 
             }
         });
-        delete.setOnClickListener(new View.OnClickListener() {
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference storageRef = storage.getReferenceFromUrl("gs://seterm-d4ac0.appspot.com").child("flower/" + list.getFileName());
-            @Override
-            public void onClick(View v) {
-                storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        //사진 삭제 성공
+        try {
+            if (Uid != null) {
+                if (Uid.equals(post)) {
 
-                    }
-                });
-                dbRef.child(G.keyList.get(position)).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(context, "삭제 성공", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    showButton(delete);
+                    delete.setOnClickListener(new View.OnClickListener() {
+                        FirebaseStorage storage = FirebaseStorage.getInstance();
+                        StorageReference storageRef = storage.getReferenceFromUrl("gs://seterm-d4ac0.appspot.com").child("flower/" + list.getFileName());
+
+                        @Override
+                        public void onClick(View v) {
+                            storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    //사진 삭제 성공
+
+                                }
+                            });
+                            dbRef.child(G.keyList.get(position)).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(context, "삭제 성공", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    });
+                    showButton(change);
+                    change.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            View view = LayoutInflater.from(context).inflate(R.layout.activity_edit, null, false);
+                            builder.setView(view);
+                            final Button edit = (Button) view.findViewById(R.id.upload);
+                            final EditText name = (EditText) view.findViewById(R.id.flowername);
+                            final EditText color = (EditText) view.findViewById(R.id.flowercolor);
+                            final EditText num = (EditText) view.findViewById(R.id.flowernumber);
+
+                            name.setText(list.getFlowername());
+                            color.setText(list.getFlowercolor());
+                            num.setText(list.getFlowernumber());
+
+                            final AlertDialog dialog = builder.create();
+                            edit.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            String editname = name.getText().toString();
+                                            String editcolor = color.getText().toString();
+                                            String editnum = num.getText().toString();
+                                            list.setFlowername(editname);
+                                            list.setFlowercolor(editcolor);
+                                            list.setFlowernumber(editnum);
+                                            dbRef.child(G.keyList.get(position)).child("flowername").setValue(editname);
+                                            dbRef.child(G.keyList.get(position)).child("flowercolor").setValue(editcolor);
+                                            dbRef.child(G.keyList.get(position)).child("flowernumber").setValue(editnum);
+                                            notifyDataSetChanged();
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                                    dialog.dismiss();
+                                }
+                            });
+                            dialog.show();
+                        }
+                    });
+                } else {
+                    hideButton(delete);
+                    hideButton(change);
+
+                }
             }
-        });
+        } catch (NullPointerException ignored) {
 
-        change.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                View view = LayoutInflater.from(context).inflate(R.layout.activity_edit,null,false);
-                builder.setView(view);
-                final Button edit = (Button)view.findViewById(R.id.upload);
-                final EditText name = (EditText)view.findViewById(R.id.flowername);
-                final EditText color = (EditText)view.findViewById(R.id.flowercolor);
-                final EditText num = (EditText)view.findViewById(R.id.flowernumber);
-
-                name.setText(list.getFlowername());
-                color.setText(list.getFlowercolor());
-                num.setText(list.getFlowernumber());
-
-                final AlertDialog dialog = builder.create();
-                edit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                String editname = name.getText().toString();
-                                String editcolor = color.getText().toString();
-                                String editnum = num.getText().toString();
-                                list.setFlowername(editname);
-                                list.setFlowercolor(editcolor);
-                                list.setFlowernumber(editnum);
-                                dbRef.child(G.keyList.get(position)).child("flowername").setValue(editname);
-                                dbRef.child(G.keyList.get(position)).child("flowercolor").setValue(editcolor);
-                                dbRef.child(G.keyList.get(position)).child("flowernumber").setValue(editnum);
-                                notifyDataSetChanged();
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-                        dialog.dismiss();
-                    }
-                });dialog.show();
-            }
-        });
+        }
 
         if (list.getImgUrl() == null)//사진이 없을때
         {

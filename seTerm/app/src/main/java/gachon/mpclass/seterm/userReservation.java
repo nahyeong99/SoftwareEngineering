@@ -113,6 +113,7 @@ public class userReservation extends AppCompatActivity implements shopListAdapte
                     if(detailAddress!=null&&latitude != null&& longitude != null) {
                     managerLatitude = Double.parseDouble(lat);
                      managerLongitude = Double.parseDouble(longi);
+                     if(managerLatitude!=null&&managerLongitude!=null){
                         ManagerLocation.setLatitude(managerLatitude);
                         ManagerLocation.setLongitude(managerLongitude);
 
@@ -123,7 +124,7 @@ public class userReservation extends AppCompatActivity implements shopListAdapte
                         if(distance < 3000) {
                             list.add(manager);
                             adapter.addItem(name, address, num, nickname);
-                        }
+                        }}else{Toast.makeText(getApplicationContext(),"위치를 설저해주세요",Toast.LENGTH_SHORT);}
 
                     }
 
