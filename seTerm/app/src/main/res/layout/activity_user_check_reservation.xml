@@ -35,9 +35,9 @@
             android:layout_marginBottom="20dp"
             android:orientation="horizontal">
 
-            <ListView
+            <TextView
                 android:fontFamily="@font/fontstyle"
-                android:id="@+id/userReservationListView"
+                android:id="@+id/userReservationCheck"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />

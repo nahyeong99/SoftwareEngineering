@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,9 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class userCheckReservation extends AppCompatActivity {
-    ListView reservationListView;
+    TextView userReservationCheck;
     String customerUid="";
-    String arrayItem;
+    String arrayItem="";
     ArrayAdapter adapter;
     String managerUid;
     FirebaseAuth firebaseAuth;
@@ -38,7 +39,8 @@ public class userCheckReservation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_check_reservation);
-        reservationListView = (ListView)findViewById(R.id.userReservationListView);
+        userReservationCheck = (TextView)findViewById(R.id.userReservationCheck);
+
         Button back = (Button)findViewById(R.id.joinInUserBack) ;
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,23 +73,25 @@ public class userCheckReservation extends AppCompatActivity {
                                             String flowernum = ds.child("flowernum").getValue().toString();
 
                                             Log.d("userCheckReservation", "꽃 개수: "+flowernum);
-                                            arrayItem = "꽃 개수: "+flowernum+"\nmanagerUid: "+managerUid;
-                                            items.add(arrayItem);
-
+                                            arrayItem = arrayItem+ "\n꽃 개수: "+flowernum+"\nmanagerUid: "+managerUid;
+                                            userReservationCheck.setText(arrayItem);
                                         }
                                     }
                                 }
-                                adapter.add(items);
+
                             }
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
 
                             }
                         });
-                      // adapter.add(items);
+                      //adapter.add(items);
+
+
                     }
 
                 }
+                //
 
             }
 
@@ -97,6 +101,6 @@ public class userCheckReservation extends AppCompatActivity {
             }
         });
 
-        reservationListView.setAdapter(adapter);
+
     }
 }
