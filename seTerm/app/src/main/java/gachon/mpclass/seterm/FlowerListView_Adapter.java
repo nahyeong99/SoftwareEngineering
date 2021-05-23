@@ -22,7 +22,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -49,6 +51,8 @@ public class FlowerListView_Adapter extends BaseAdapter {
     int check = 0;
     FirebaseAuth uAuth;
     String flowerUid;
+    String flowercolor;
+    String flowername;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("Managers").child(user.getUid()).child("Flowers");
     DatabaseReference reserveRef = FirebaseDatabase.getInstance().getReference().child("Managers");//child(user.getUid()).child("reservation");
@@ -117,11 +121,28 @@ public class FlowerListView_Adapter extends BaseAdapter {
                 String managerID = list.getUid();
                 DatabaseReference rf = reserveRef.child(managerID).child("reservation");
                 flowerUid = dbRef.child(G.keyList.get(position)).getKey();
+              /*  dbRef.child(G.keyList.get(position)).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Log.e("firebase", "Error getting data", task.getException());
+                        }
+                        else {
+                            Log.d("firebase", String.valueOf(task.getResult().getValue()));
+
+                            flowercolor = task.getResult().child("flowercolor").getValue().toString();
+                            flowername = task.getResult().child("flowername").getValue().toString();
+                            Log.d("TAG", "꽃 이름: " + flowername);
+                        }
+                    }
+                });*/
                 String uUid = user.getUid();//이 꽃을 예약한 customer 아이디
                 Log.d("TAG", "꽃 아이디: " + flowerUid);
                 G.hashMap.put("CustomerUid", uUid);
                 G.hashMap.put("flowernum", flowerNum);
                 G.hashMap.put("flowerUid", flowerUid);
+                G.hashMap.put("flowername", flowername);
+                G.hashMap.put("flowercolor", flowercolor);
                 rf.push().setValue(G.hashMap);
 
             }

@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SeTerm"
         android:usesCleartextTraffic="true">
-        <activity android:name=".userReservationDetail"></activity>
+        <activity android:name=".userCheckReservation"></activity>
+        <activity android:name=".userReservationDetail" />
         <activity android:name=".userReservation" />
         <activity android:name=".userEditInfo" />
         <activity android:name=".managerLocation" />

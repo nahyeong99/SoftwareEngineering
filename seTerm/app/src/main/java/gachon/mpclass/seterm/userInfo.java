@@ -14,8 +14,16 @@ TextView uid;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
+        Button checkResrve = (Button)findViewById(R.id.checkReserve);
         Button editInfoBtn = findViewById(R.id.editUserInfoBtn);
         Button reservationBtn = findViewById(R.id.reservation);
+        checkResrve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),userCheckReservation.class);
+                startActivity(intent);
+            }
+        });
         editInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -4,6 +4,7 @@ public class reservation {
     public String customerUid;
     public String flowerUid;
     public String num;
+
     public reservation() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
@@ -11,6 +12,7 @@ public class reservation {
         this.customerUid = customerUid;
         this.num = num;
         this.flowerUid =flowerUid;
+
     }
 public String getCustomerUid(){
         return customerUid;
